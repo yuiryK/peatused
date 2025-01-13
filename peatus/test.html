@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buses</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1>Select area and bus station:</h1>
+
+        <div class="form-group">
+            <label for="regions">Region</label>
+            <input list="regions_data" id="regions" class="form-control" onchange="fetchDataForSelection('stops/', document.getElementById('stops_data'))">
+            <datalist id="regions_data"></datalist>
+        </div>
+
+        <div class="form-group">
+            <label for="stops">Bus Stop</label>
+            <input list="stops_data" id="stops" class="form-control" onchange="fetchDataForSelection('buses/', document.getElementById('buses'), 'button'); fetchDataForSelection('stoptime/', document.getElementById('routes'), 'list_routes')">
+            <datalist id="stops_data"></datalist>
+        </div>
+
+        <div id="buses" class="mt-4">
+        </div>
+
+        <div id="time" class="mt-4">
+            <h4>Timetable</h4>
+            <ul class="list-group">
+                <li class="list-group-item">Sample timetable item</li>
+            </ul>
+        </div>
+
+        <div id="routes" class="mt-4">
+            <h4>Routes</h4>
+            <ul class="list-group">
+            </ul>
+        </div>
+
+        <button id="reset-button" class="btn btn-danger mt-4" onclick="resetAllFields()">Reset data</button>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="geolocation.js"></script>
+    <script src="ui-functions.js"></script>
+    <script src="data-fetcher.js"></script>
+    <script src="main.js"></script>
+
+    <script>
+        const regions_data = document.getElementById('regions_data');
+        const url = 'https://peatus.metaler.com.ua/regions';
+        fetchData(url, regions_data);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchGeolocation().then((result) => {
+                const lon = result.longitude;
+                const lat = result.latitude;
+                const url = encodeURI('https://peatus.metaler.com.ua/geolocation/' + lon + '/' + lat);
+                return fetchJsonData(url).then((data) => {
+                    data.forEach(item => {
+                        alert(item.stop_area);
+                        alert(item.title);
+                        const reg = document.getElementById('regions');
+                        const stp = document.getElementById('stops');
+                        reg.value = item.stop_area;
+                        let eventChange = new Event('change');
+                        reg.dispatchEvent(eventChange);
+                        stp.value = item.title;
+                        stp.dispatchEvent(eventChange);
+                    });
+                });
+            }).catch((error) => {
+                console.log(error); // Handle any error that occurred
+            });
+        });
+    </script>
+
+</body>
+</html>
