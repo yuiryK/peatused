@@ -6,6 +6,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 
+
 # Перенаправляем на api.php
 #RewriteRule ^(.*)$ functions/api.php?$1 [QSA,L]
 #RewriteRule ^([^/]+)/([^/]+)/([^/]+)$ /functions/api.php?param1=$1&param2=$2&param3=$3 [L, QSA]

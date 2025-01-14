@@ -1,11 +1,11 @@
 function updateElementWithData(data, element, elementType = 'option') {
-    // Очищаем элемент перед добавлением новых данных
+    //clear data
     element.innerHTML = '';
     
-    // Сортируем данные
+    // sorting
     data.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true }));
 
-    // Добавляем элементы в нужный элемент в зависимости от типа
+    // elements
     data.forEach(item => {
         let newElement;
         if (elementType === 'option') {

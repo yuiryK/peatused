@@ -21,15 +21,15 @@ switch ($query_type) {
     case 'geolocation':
     case 'bustime':
 	case 'stoptime':
-        // Для всех этих типов запросов выполняем одинаковую логику
         $query = get_query($query_type, $param1, $param2, $param3);
         $results = executeQuery($query);
         print_r(get_results($results));
         break;
     
     default:
-        // Если маршрут не найден, выводим ошибку
-        http_response_code(404);
-        echo json_encode(['error' => 'Route not found']);
-        break;
+        //http_response_code(404);
+        //echo json_encode(['error' => 'Route not found']);
+		header("Location: https://peatus.metaler.com.ua/index.html");
+		exit();
+        //break;
 }

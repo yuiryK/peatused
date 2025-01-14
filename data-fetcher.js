@@ -1,11 +1,11 @@
 async function fetchJsonData(url) {
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error('Сетевая ошибка');
+        if (!response.ok) throw new Error('Network error');
         const data = await response.json();
         return data;
     } catch (error) {
-        throw new Error('Ошибка при получении данных: ' + error.message);
+        throw new Error('Error retrieving data: ' + error.message);
     }
 }
 
@@ -14,6 +14,6 @@ async function fetchData(url, element, elementType = 'option') {
         const data = await fetchJsonData(url);
         updateElementWithData(data, element, elementType);
     } catch (error) {
-        element.innerHTML = '<option>Ошибка '+ error.message + ' </option>';
+        element.innerHTML = '<option>Error '+ error.message + ' </option>';
     }
 }		
